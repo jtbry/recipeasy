@@ -6,7 +6,7 @@ import { Ingredient } from './ingredient.entity';
 import { IngredientService } from './ingredient.service';
 
 const testIngredient = new Ingredient();
-Object.assign(testIngredient, { id: 1, name: 'Test Ingredient' });
+Object.assign(testIngredient, { id: 1, name: 'Test Ingredient', recipes: [] });
 
 describe('IngredientController', () => {
   let controller: IngredientController;

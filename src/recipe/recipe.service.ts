@@ -11,7 +11,10 @@ export class RecipeService {
   ) {}
 
   findOne(id: number) {
-    return this.recipeRepository.findOneBy({ id });
+    return this.recipeRepository.findOne({
+      where: { id },
+      relations: ['ingredients'],
+    });
   }
 
   createOne(recipe: Recipe) {

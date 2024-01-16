@@ -11,7 +11,10 @@ export class IngredientService {
   ) {}
 
   findOne(id: number): Promise<Ingredient> {
-    return this.ingredientRepository.findOneBy({ id });
+    return this.ingredientRepository.findOne({
+      where: { id },
+      relations: ['recipes'],
+    });
   }
 
   createOne(ingredient: Ingredient): Promise<Ingredient> {

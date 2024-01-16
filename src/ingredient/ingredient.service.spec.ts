@@ -5,7 +5,7 @@ import { Ingredient } from './ingredient.entity';
 import { IngredientService } from './ingredient.service';
 
 const testIngredient = new Ingredient();
-Object.assign(testIngredient, { id: 1, name: 'Test Ingredient' });
+Object.assign(testIngredient, { id: 1, name: 'Test Ingredient', recipes: [] });
 
 describe('IngredientService', () => {
   let service: IngredientService;
@@ -28,12 +28,11 @@ describe('IngredientService', () => {
   });
 
   it('should find one ingredient', async () => {
-    jest.spyOn(repo, 'findOneBy').mockResolvedValue(testIngredient);
+    jest.spyOn(repo, 'findOne').mockResolvedValue(testIngredient);
     expect(await service.findOne(1)).toEqual(testIngredient);
   });
 
   it('should create an ingredient', async () => {
-    const testIngredient = { id: 1, name: 'Test Ingredient' };
     jest.spyOn(repo, 'save').mockResolvedValue(testIngredient);
     expect(await service.createOne(testIngredient)).toEqual(testIngredient);
   });
