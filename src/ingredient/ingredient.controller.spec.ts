@@ -3,7 +3,8 @@ import { IngredientController } from './ingredient.controller';
 import { Ingredient } from './ingredient.entity';
 import { IngredientService } from './ingredient.service';
 
-const testIngredient = { id: 1, name: 'Test Ingredient' };
+const testIngredient = new Ingredient();
+Object.assign(testIngredient, { id: 1, name: 'Test Ingredient' });
 
 describe('IngredientController', () => {
   let controller: IngredientController;
@@ -17,6 +18,7 @@ describe('IngredientController', () => {
           useValue: {
             findOne: jest.fn().mockResolvedValue(testIngredient),
             createOne: jest.fn().mockResolvedValue(testIngredient),
+            searchByName: jest.fn().mockResolvedValue([testIngredient]),
           },
         },
       ],
@@ -30,18 +32,16 @@ describe('IngredientController', () => {
   });
 
   it('should find one ingredient', async () => {
-    expect(await controller.findOne(1)).toEqual({
-      id: 1,
-      name: 'Test Ingredient',
-    });
+    expect(await controller.findOne(1)).toEqual(testIngredient);
   });
 
   it('should create an ingredient', async () => {
     const ingredient = new Ingredient();
     Object.assign(ingredient, testIngredient);
-    expect(await controller.createOne(ingredient)).toEqual({
-      id: 1,
-      name: 'Test Ingredient',
-    });
+    expect(await controller.createOne(ingredient)).toEqual(testIngredient);
+  });
+
+  it('should search for ingredients by name', async () => {
+    expect(await controller.searchByName('Test')).toEqual([testIngredient]);
   });
 });

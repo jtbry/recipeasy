@@ -4,6 +4,9 @@ import { Repository } from 'typeorm';
 import { Ingredient } from './ingredient.entity';
 import { IngredientService } from './ingredient.service';
 
+const testIngredient = new Ingredient();
+Object.assign(testIngredient, { id: 1, name: 'Test Ingredient' });
+
 describe('IngredientService', () => {
   let service: IngredientService;
   let repo: Repository<Ingredient>;
@@ -25,14 +28,18 @@ describe('IngredientService', () => {
   });
 
   it('should find one ingredient', async () => {
-    const testIngredient = { id: 1, name: 'Test Ingredient' };
-    jest.spyOn(repo, 'findOneBy').mockResolvedValue(testIngredient as any);
+    jest.spyOn(repo, 'findOneBy').mockResolvedValue(testIngredient);
     expect(await service.findOne(1)).toEqual(testIngredient);
   });
 
   it('should create an ingredient', async () => {
     const testIngredient = { id: 1, name: 'Test Ingredient' };
-    jest.spyOn(repo, 'save').mockResolvedValue(testIngredient as any);
+    jest.spyOn(repo, 'save').mockResolvedValue(testIngredient);
     expect(await service.createOne(testIngredient)).toEqual(testIngredient);
+  });
+
+  it('should search for ingredients by name', async () => {
+    jest.spyOn(repo, 'find').mockResolvedValue([testIngredient]);
+    expect(await service.searchByName('Test')).toEqual([testIngredient]);
   });
 });

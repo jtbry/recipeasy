@@ -5,6 +5,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { Ingredient } from './ingredient.entity';
 import { IngredientService } from './ingredient.service';
@@ -16,6 +17,11 @@ export class IngredientController {
   @Post()
   createOne(@Body() ingredient: Ingredient) {
     return this.ingredientService.createOne(ingredient);
+  }
+
+  @Get('search')
+  searchByName(@Query('name') name: string) {
+    return this.ingredientService.searchByName(name);
   }
 
   @Get(':id')
