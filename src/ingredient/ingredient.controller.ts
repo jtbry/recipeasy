@@ -1,41 +1,29 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
-  Put,
 } from '@nestjs/common';
+import { Ingredient } from './ingredient.entity';
 import { IngredientService } from './ingredient.service';
-import { Ingredient } from './interfaces/ingredient.interface';
 
 @Controller('ingredient')
 export class IngredientController {
   constructor(private readonly ingredientService: IngredientService) {}
 
   @Post()
-  create(@Body() ingredient: Ingredient) {
-    return this.ingredientService.create(ingredient);
-  }
-
-  @Get()
-  findAll(): Ingredient[] {
-    return this.ingredientService.findAll();
+  createOne(@Body() ingredient: Ingredient) {
+    return this.ingredientService.createOne(ingredient);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Ingredient {
-    return this.ingredientService.findOne(+id);
-  }
-
-  @Put(':id')
-  update(@Param('id') id: string, @Body() ingredient: Ingredient) {
-    return this.ingredientService.update(+id, ingredient);
-  }
-
-  @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.ingredientService.delete(+id);
+  async findOne(@Param('id') id: number) {
+    const ingredient = await this.ingredientService.findOne(id);
+    if (!ingredient) {
+      throw new NotFoundException('Ingredient not found');
+    }
+    return ingredient;
   }
 }
