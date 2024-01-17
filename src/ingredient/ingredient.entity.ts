@@ -9,6 +9,12 @@ export class Ingredient {
   @Column()
   name: string;
 
+  @Column()
+  quantity: number;
+
+  @Column()
+  unit: string;
+
   @ManyToMany(() => Recipe, (recipe) => recipe.ingredients)
   recipes: Recipe[];
 }
