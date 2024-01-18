@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { Recipe } from './recipe.entity';
 import { RecipeService } from './recipe.service';
 
@@ -6,9 +13,18 @@ import { RecipeService } from './recipe.service';
 export class RecipeController {
   constructor(private readonly recipeService: RecipeService) {}
 
+  @Get()
+  async findAll() {
+    return this.recipeService.findAll();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: number) {
-    return this.recipeService.findOne(id);
+    const recipe = await this.recipeService.findOne(id);
+    if (!recipe) {
+      throw new NotFoundException('Recipe not found');
+    }
+    return recipe;
   }
 
   @Post()

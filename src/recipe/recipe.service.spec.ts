@@ -32,7 +32,7 @@ describe('RecipeService', () => {
   });
 
   it('should find one recipe', async () => {
-    jest.spyOn(repo, 'findOneBy').mockResolvedValue(testRecipe);
+    jest.spyOn(repo, 'findOne').mockResolvedValue(testRecipe);
     const recipe = await service.findOne(1);
     expect(recipe).toEqual(testRecipe);
   });
@@ -41,5 +41,11 @@ describe('RecipeService', () => {
     jest.spyOn(repo, 'save').mockResolvedValue(testRecipe);
     const recipe = await service.createOne(testRecipe);
     expect(recipe).toEqual(testRecipe);
+  });
+
+  it('should find all recipes', async () => {
+    jest.spyOn(repo, 'find').mockResolvedValue([testRecipe]);
+    const recipes = await service.findAll();
+    expect(recipes).toEqual([testRecipe]);
   });
 });

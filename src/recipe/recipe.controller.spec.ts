@@ -42,4 +42,9 @@ describe('RecipeController', () => {
     jest.spyOn(service, 'createOne').mockResolvedValue(testRecipe);
     expect(await controller.createOne(testRecipe)).toEqual(testRecipe);
   });
+
+  it('should find all recipes', async () => {
+    jest.spyOn(service, 'findAll').mockResolvedValue([testRecipe]);
+    expect(await controller.findAll()).toEqual([testRecipe]);
+  });
 });

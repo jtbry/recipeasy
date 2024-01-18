@@ -10,14 +10,17 @@ export class RecipeService {
     private recipeRepository: Repository<Recipe>,
   ) {}
 
-  findOne(id: number) {
+  findAll(): Promise<Recipe[]> {
+    return this.recipeRepository.find();
+  }
+  findOne(id: number): Promise<Recipe> {
     return this.recipeRepository.findOne({
       where: { id },
       relations: ['ingredients'],
     });
   }
 
-  createOne(recipe: Recipe) {
+  createOne(recipe: Recipe): Promise<Recipe> {
     return this.recipeRepository.save(recipe);
   }
 }
